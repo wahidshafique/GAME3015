@@ -10,6 +10,6 @@ class Cylinder : public SceneNode {
 	GLfloat xRotated = 1.0, yRotated = 1.0;
 public:
 	Cylinder::Cylinder(glm::mat4 transformation, float scale);
-	Cylinder::Cylinder(glm::mat4 transformation, float scale, GLfloat xRot, GLfloat yRot);
+	Cylinder::Cylinder(glm::mat4 transformation, float scale, GLfloat xRot, GLfloat yRot, bool isFill);
 	void draw(float scale) override;
 };

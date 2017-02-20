@@ -8,31 +8,31 @@
 #include <vector>
 #include "GL\glut.h"
 
-class SceneNode
-{
-	protected:
+class SceneNode {
+protected:
 	std::vector<SceneNode*> children;
 	SceneNode* parent;
 	glm::quat rotation;
 	glm::mat4 transformation;
 	float r, g, b;
 	float scale;
+	bool fill;
 
-
-	public:
-		//Constructor
-		SceneNode(glm::mat4 transformation, float scale);
-
-		//Methods
-		void SceneNode::addChild(SceneNode*);
-		void SceneNode::setColor(float r, float g, float b);
-		glm::mat4 SceneNode::getTransformationMatrix();
-		std::vector<SceneNode*> getChildren();
-		SceneNode* SceneNode::getParent();
-		void SceneNode::setParent(SceneNode* p);
-		void SceneNode::render();
-		virtual void SceneNode::draw(float scale) = 0;
-		//virtual void SceneNode::rotate(glm::mat4 rotate) = 0;
-		void rotate(float x, float y);
+public:
+	//Constructor
+	SceneNode(glm::mat4 transformation, float scale);
+	SceneNode(glm::mat4 transformation, float scale, int orient);
+	//Methods
+	void SceneNode::addChild(SceneNode*);
+	void SceneNode::setColor(float r, float g, float b);
+	glm::mat4 SceneNode::getTransformationMatrix();
+	glm::quat SceneNode::getRotationQuat();
+	std::vector<SceneNode*> getChildren();
+	SceneNode* SceneNode::getParent();
+	void SceneNode::setParent(SceneNode* p);
+	void SceneNode::render();
+	virtual void SceneNode::draw(float scale) = 0;
+	//virtual void SceneNode::rotate(glm::mat4 rotate) = 0;
+	void rotate(float x, float y);
 };
 #endif // !SCENENODE_HEADER

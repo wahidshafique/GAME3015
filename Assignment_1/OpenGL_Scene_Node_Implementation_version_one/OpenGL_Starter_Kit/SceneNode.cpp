@@ -17,6 +17,18 @@ SceneNode::SceneNode(glm::mat4 aTransformation, float aScale) {
 	b = 1.0f;
 }
 
+SceneNode::SceneNode(glm::mat4 aTransformation, float aScale, int orient) {
+	transformation = aTransformation;
+	//rotation = aRotation;
+	parent = nullptr;
+	children = std::vector<SceneNode*>();
+	scale = aScale;
+
+	r = 1.0f;
+	g = 1.0f;
+	b = 1.0f;
+}
+
 void SceneNode::setColor(float R, float G, float B) {
 	r = R;
 	g = G;
@@ -37,6 +49,10 @@ glm::mat4 SceneNode::getTransformationMatrix() {
 	return transformation;
 }
 
+glm::quat SceneNode::getRotationQuat() {
+	return rotation;
+}
+
 std::vector<SceneNode*> SceneNode::getChildren() {
 	return children;
 }
@@ -44,26 +60,24 @@ SceneNode* SceneNode::getParent() {
 	return parent;
 }
 
-void SceneNode::rotate(float x, float y) {
-	rotation.x = x;
-	rotation.y = y;
-}
-
 void SceneNode::render() {
+	//glMatrixMode(GL_MODELVIEW);
 	//rotation = 
 	//Step One: getMyTransformation
 	glm::mat4 transf = getTransformationMatrix();
+	glm::quat rotf = getRotationQuat();
 	glm::vec3 myScale;
 	glm::vec3 translation;
 	glm::vec3 skew;
 	glm::vec4 perspective;
-	glm::decompose(transf, myScale, rotation, translation, skew, perspective);
+	glm::decompose(transf, myScale, rotf, translation, skew, perspective);
 
 	//Step Two: glPushMatrix(My Transformation)
 	glPushMatrix();
+	float sqrtOfW = sqrt(1 - rotf.w * rotf.w);
+	glRotatef(2 * acos(rotf.w), rotf.x / sqrtOfW, rotf.y / sqrtOfW, rotf.z / sqrtOfW);
 	glTranslatef(translation.x, translation.y, translation.z);
-	float sqrtOfW = sqrt(1 - rotation.w * rotation.w);
-	glRotatef(2 * acos(rotation.w), rotation.x / sqrtOfW, rotation.y / sqrtOfW, rotation.z / sqrtOfW);
+
 
 
 	//Step Three: Draw myself

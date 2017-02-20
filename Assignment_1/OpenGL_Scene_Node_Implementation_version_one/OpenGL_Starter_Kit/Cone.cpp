@@ -32,8 +32,8 @@ void Cone::draw(float scale) {
 	glEnd();
 
 	/** Draw the circle on bottom of cone */
-	glColor3ub(119, 136, 153);
-	glBegin(GL_POLYGON);
+	//glColor3ub(119, 136, 153);
+	glBegin(GL_LINE_LOOP);
 	angle = 0.0;
 	while (angle < 2 * PI) {
 		x = radius * cos(angle);

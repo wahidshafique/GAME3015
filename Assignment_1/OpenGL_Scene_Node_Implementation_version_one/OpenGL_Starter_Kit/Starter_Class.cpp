@@ -5,10 +5,13 @@
 #include "3Dcar.h"
 
 
-
+bool g_over = false;
 float rotation_angle = 0.0f;
 float x, y = 0;
 
+float n = 0.0f;
+float c = 12.0f;
+float angleNum = 137.5f;
 
 void myDisplay(void) {
 
@@ -22,21 +25,37 @@ void myDisplay(void) {
 	Cube cube = Cube(glm::translate(glm::mat4(1.f), glm::vec3(0.5f, 0.f, 0.f)), 0.1, x * 12, y * 12);
 	cube.render();
 
-	Sphere sphere = Sphere(glm::translate(glm::mat4(1.f), glm::vec3(0.25f, 0.f, 0.f)), 0.1, x * 12, y * 12);
+	Sphere sphere = Sphere(glm::translate(glm::mat4(1.f), glm::vec3(0.25f, 0.f, 0.f)), 0.1, x * 12, y * 12, false);
 	sphere.render();
 
-	Cylinder cylinder = Cylinder(glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, 0.f)), 0.1, x * 12, y * 12);
+	Cylinder cylinder = Cylinder(glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, 0.f)), 0.1, x * 12, y * 12, false);
 	cylinder.render();
 
 	Cone cone = Cone(glm::translate(glm::mat4(1.f), glm::vec3(-0.25f, 0.f, 0.f)), 0.1, x * 12, y * 12);
 	cone.render();
-	//Car redCar = Car(glm::translate(glm::mat4(1.f), glm::vec3(0.f, 0.f, 0.f)), 0.1);
-	//redCar.rotate(x, y);
-	//redCar.draw(1);
-	//redCar.
-	//glm::Rot
-	//redCar.setColor(1.0, 0.0, 0.0);
-	//redCar.render();
+
+
+	printf("%f \n", x);
+	float spinner = x; 
+	if (x > 2.5f) {
+		g_over = true;
+	} else if (x < -2.5f) {
+		g_over = false;
+	}
+	Car car1 = Car(glm::translate(glm::mat4(1.f), glm::vec3(0.f, -0.5f, 0.f)), 0.1, x * 10);
+	car1.render();
+
+	Car car2 = Car(glm::translate(glm::mat4(1.f), glm::vec3(x / 10, -0.5, 0.f)), 0.1, x * 10);
+	car2.render();
+
+	Car car3 = Car(glm::translate(glm::mat4(1.f), glm::vec3(0 , 0.5, 0.f)), 0.1, x * 10);
+	car3.render();
+
+	Car car4 = Car(glm::translate(glm::mat4(1.f), glm::vec3(x / 10, 0.5, 0.f)), 0.1, x * 10);
+	car4.render();
+
+	Car car5 = Car(glm::translate(glm::mat4(1.f), glm::vec3(x / 5, 0.5, 0.f)), 0.1, x * 10);
+	car5.render();
 
 	//Tank blueTank = Tank(glm::translate(glm::mat4(1.0f), glm::vec3(-x, y, 0)), 0.1);
 	//blueTank.setColor(0.0, 0.0, 1.0);
@@ -84,11 +103,15 @@ void myDisplay(void) {
 	glFlush();
 }
 
-
 void myIdleFunc() {
 	//rotation_angle += 0.01;
-	x += 0.0001;
-	y -= 0.0001;
+	if (g_over) {
+		x -= 0.001;
+		y += 0.001;
+	} else {
+		x += 0.001;
+		y -= 0.001;
+	}
 	glutPostRedisplay();
 }
 

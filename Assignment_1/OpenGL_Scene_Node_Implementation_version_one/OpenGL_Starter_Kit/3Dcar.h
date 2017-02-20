@@ -12,7 +12,8 @@
 #include <vector>
 
 class Car : public SceneNode {
+	int orientation;
 public:
-	Car::Car(glm::mat4 transformation, float scale);
+	Car::Car(glm::mat4 transformation, float scale, int orient);
 	void draw(float scale) override;
 };

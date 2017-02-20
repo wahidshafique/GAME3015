@@ -3,8 +3,9 @@
 Cylinder::Cylinder(glm::mat4 transformation, float scale) : SceneNode(transformation, scale) {
 }
 
-Cylinder::Cylinder(glm::mat4 aTransformation, float scale, GLfloat xRot, GLfloat yRot) : SceneNode(aTransformation, scale) {
+Cylinder::Cylinder(glm::mat4 aTransformation, float scale, GLfloat xRot, GLfloat yRot, bool isFill) : SceneNode(aTransformation, scale) {
 	xRotated = xRot, yRotated = yRot;
+	fill = isFill;
 }
 
 void Cylinder::draw(float scale) {
@@ -17,8 +18,11 @@ void Cylinder::draw(float scale) {
 	GLfloat angle = 0.0;
 	GLfloat angle_stepsize = 0.5;
 	GLfloat radius = scale / 2;
-
-	glBegin(GL_LINE_LOOP);
+	if (fill) {
+		glBegin(GL_POLYGON);
+	} else {
+		glBegin(GL_LINE_LOOP);
+	}
 	angle = 0.0;
 
 	while (angle < 2 * PI) {
@@ -33,8 +37,8 @@ void Cylinder::draw(float scale) {
 	glEnd();
 
 	/** Draw the circle on top of cylinder */
-	glColor3ub(119, 136, 153);
-	glBegin(GL_POLYGON);
+	//glColor3ub(119, 136, 153);
+	glBegin(GL_LINE_LOOP);
 	angle = 0.0;
 	while (angle < 2 * PI) {
 		x = radius * cos(angle);
@@ -44,8 +48,8 @@ void Cylinder::draw(float scale) {
 	}
 	glEnd();
 	/** Draw the circle on bottom of cylinder */
-	glColor3ub(119, 136, 153);
-	glBegin(GL_POLYGON);
+	//glColor3ub(119, 136, 153);
+	glBegin(GL_LINE_LOOP);
 	angle = 0.0;
 	while (angle < 2 * PI) {
 		x = radius * cos(angle);
